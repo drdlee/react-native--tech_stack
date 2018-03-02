@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
-import { Text, TouchableWithoutFeedback, View } from 'react-native';
+import {
+    Text,
+    TouchableWithoutFeedback,
+    View, LayoutAnimation,
+    UIManager,
+    Platform
+    } from 'react-native';
 import { connect } from 'react-redux';
 import { CardSection } from './common';
 import * as actions from '../actions';
 
 class ListItem extends Component {
+    constructor() {
+        super();
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental
+            && UIManager.setLayoutAnimationEnabledExperimental(true);
+        }
+    }
+    componentWillUpdate() {
+        LayoutAnimation.spring();
+    }
+
     renderDescription() {
         const { library, sameId } = this.props;
         if (sameId) {
             return (
-                <Text>{library.description}</Text>
+                <CardSection>
+                    <Text>{library.description}</Text>
+                </CardSection>
             );
         }
     }
